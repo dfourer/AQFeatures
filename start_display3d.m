@@ -47,7 +47,7 @@ close all
 load('AQFeatures.mat');
 f_names{26} = 'AVSP6';
 
-k = 3;               % fichier a afficher (cf. originals
+k = 2;               % fichier a afficher (cf. originals
 I = [8     2    14]; %[3, 26, 23];     % indices des features a visualiser
 
 
@@ -67,20 +67,21 @@ for j = 1:length(d0)
     if strcmpi(ext0,".aif") || strcmpi(ext0,".wav")
         i_ref = i_ref + 1;
         class_name{i_ref} = name0;
-        d = dir(sprintf('%s/generated/%s', dataset_chemin, name0));
-        
-        count = 0;
-        
-        for i = 1:length(d)
-            if length(d(i).name) < 4
-                continue;
-            end
-            [~, nn, ext] = fileparts(d(i).name);
-            if strcmpi(ext, ".wav")
-                count = count + 1;
-                % juste stocker le nom
-                class_name{count} = name0;
-                individual_name{count} = nn;
+        if i_ref == k
+            d = dir(sprintf('%s/generated/%s', dataset_chemin, class_name{i_ref}));
+            
+            count = 0;
+            
+            for i = 1:length(d)
+                if length(d(i).name) < 4
+                    continue;
+                end
+                [~, nn, ext] = fileparts(d(i).name);
+                if strcmpi(ext, ".wav")
+                    count = count + 1;
+                    % juste stocker le nom
+                    individual_name{count} = nn;
+                end
             end
         end
     end
@@ -129,6 +130,7 @@ function txt = myupdatefcn(~, event, Xk, individual_name, dataset_chemin, classn
     if exist(filename,'file')
         
         [x,Fs] = audioread(filename);
+        clear sound
         sound(x,Fs)
         % Utiliser sound au lieu de soundsc pour éviter les conflits
         % Lancer le son dans un timer pour ne pas bloquer le callback
