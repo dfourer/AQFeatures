@@ -1,4 +1,4 @@
-# 🎧 Objective Audio Quality Characterization – DRC Discrimination
+# Objective Audio Quality Characterization – DRC Discrimination
 
 This project provides a MATLAB implementation for analyzing and discriminating **Dynamic Range Compression (DRC) profiles** using audio descriptors.
 
@@ -10,7 +10,7 @@ This is achieved using an **inverse Fisher criterion**, specifically designed to
 
 ---
 
-## 📌 Overview
+## Overview
 
 Audio signals are first processed to extract descriptors.  
 Then, features are ranked according to their ability to discriminate between different DRC profiles independently of the original signal.
@@ -19,7 +19,7 @@ Finally, results can be visualized in a 3D feature space.
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 .
 ├── start_process_db.m
@@ -30,7 +30,7 @@ Finally, results can be visualized in a 3D feature space.
 
 ---
 
-## 📂 Data Organization
+## Data Organization
 
 Your dataset must follow this structure:
 /originals/
