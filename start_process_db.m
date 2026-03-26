@@ -46,7 +46,7 @@ clear
 close all
 
 
-dataset_chemin = "../dataset/";
+dataset_chemin = "../../dataset/";
 
 
 
@@ -81,7 +81,7 @@ for j = 1:length(d0)
         
             if strcmpi(ext, ".wav")
                 if mod( round(i/length(d) * 100), 25) ==0
-                    fprintf(1, "Progression %.2f %% \n", i/length(d) * 100);
+                    fprintf(1, "Progress %.2f %% \n", i/length(d) * 100);
                 end
                 % Lire le fichier audio
                 [x, fs] = audioread( sprintf('%s/generated/%s/%s', dataset_chemin,name0, d(i).name) );

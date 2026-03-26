@@ -87,8 +87,6 @@ clear
 close all
 
 load('AQFeatures.mat');
-f_names{26} = 'AVSP6';
-
 
 
 %% inter-class variance
@@ -126,7 +124,7 @@ Sw = sum(va .* repmat(nk.',1,nb_feat),1);
 f_scores = Sw ./ (eps+Sb)
 
 [~, I] = sort(f_scores, 'descend');
-fprintf(1, 'Features selected by descending order of Fisher criterion:\n');
+fprintf(1, 'Features selected by descending order of inverse-Fisher criterion:\n');
 
 for i = 1:length(I)
 fprintf(1, '%s : %.5f \n', f_names{I(i)}, f_scores(I(i)));
