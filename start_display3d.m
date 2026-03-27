@@ -45,12 +45,15 @@ clear
 close all
 
 load('AQFeatures.mat');
+dataset_chemin = '../dataset/';
+
 
 k = 5;                                  %  index of the audio file
-I = [8     2    14]; %[3, 26, 23];      %  index of the features to use
+I = [9     8    13];
+%[8     2    14];
+%[3    26    23];      %  index of the features to use
 
 
-dataset_chemin = '../../dataset/'; 
 class_name = {};
 individual_name = {};
 i_ref = 0;
@@ -66,7 +69,7 @@ for j = 1:length(d0)
         i_ref = i_ref + 1;
         class_name{i_ref} = name0;
         if i_ref == k
-            d = dir(sprintf('%s/generated/%s', dataset_chemin, class_name{i_ref}));
+            d = dir(sprintf('%s/%s/%s', dataset_chemin, generated, class_name{i_ref}));
             
             count = 0;
             
@@ -108,22 +111,22 @@ elseif length(I) >= 3
     grid on
 end
 hold off
-title(sprintf('%s - Features Projection Space',class_name{k}))
+title(sprintf('%s - Feature Projection Space',class_name{k}))
 legend('Échantillons', 'Référence')
 
 % Activate Data Cursor
 dcm = datacursormode(gcf);
-set(dcm,'UpdateFcn',@(obj,event) myupdatefcn(obj,event,X{k}(:,I), individual_name, dataset_chemin, class_name{k}));  
+set(dcm,'UpdateFcn',@(obj,event) myupdatefcn(obj,event,X{k}(:,I), individual_name, dataset_chemin, class_name{k}, generated));  
 datacursormode on
 
 %% Callback
-function txt = myupdatefcn(~, event, Xk, individual_name, dataset_chemin, classname)
+function txt = myupdatefcn(~, event, Xk, individual_name, dataset_chemin, classname, generated)
     pos = get(event,'Position');     
     
     [~, idx] = min(sum((Xk - pos).^2, 2)); 
     txt = {sprintf('Index: %d (%s)', idx, strrep(individual_name{idx}, '_', '\_')), ...
            sprintf('Coords: [%s]', num2str(pos))};
-    filename = sprintf('%s/generated/%s/%s.wav', dataset_chemin, classname,individual_name{idx});
+    filename = sprintf('%s/%s/%s/%s.wav', dataset_chemin, generated, classname,individual_name{idx});
     %fprintf(1,'%s',filename);
     if exist(filename,'file')
         

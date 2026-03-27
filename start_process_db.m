@@ -46,29 +46,33 @@ clear
 close all
 
 
-dataset_chemin = "../../dataset/";
+dataset_chemin = "../dataset/";    %%path to dataset
+
+generated = "generated-raw";       %%subpath to generated samples after effects
+
+
+feats_ref   = {};       %% computed features of orignals files
+fname_ref   = {};       %% filename of orignals files
+fname       = {};       %% filename of each component of X
+X           = {};       %% Data matrix with computed features
 
 
 
 d0 = dir(sprintf("%s/originals", dataset_chemin));
-
-i_ref       = 0;
-xref        = {};
-feats_ref   = {};
-X           = {};
+k       = 0;
 for j = 1:length(d0)
     if length(d0(j).name) < 4
         continue;
     end
     [~, name0, ext0] = fileparts(d0(j).name);
     if strcmpi(ext0,".aif") || strcmpi(ext0,".wav")
-        i_ref = i_ref+1;
+        k = k+1;
         fprintf(1, 'Processing %s ...\n', name0);
-        [xref{i_ref},Fs] = audioread(sprintf('%s/originals/%s', dataset_chemin, d0(j).name));
-        [feats_ref{i_ref}, ~, ~, ~,~, ~, f_axis,f_names] = F_audioQ_desc(xref{i_ref}, Fs);
-
+        [x_tmp,Fs] = audioread(sprintf('%s/originals/%s', dataset_chemin, d0(j).name));
+        [feats_ref{k}, ~, ~, ~,~, ~, f_axis,f_names] = F_audioQ_desc(x_tmp, Fs);
+        
         %% processing all the generated signals
-        d = dir(sprintf('%s/generated/%s', dataset_chemin, name0));
+        d = dir(sprintf('%s/%s/%s', dataset_chemin,generated, name0));
         
         X_cell = {};  % stocke chaque vecteur dans une cellule
         count = 0;
@@ -83,21 +87,19 @@ for j = 1:length(d0)
                 if mod( round(i/length(d) * 100), 25) ==0
                     fprintf(1, "Progress %.2f %% \n", i/length(d) * 100);
                 end
-                % Lire le fichier audio
-                [x, fs] = audioread( sprintf('%s/generated/%s/%s', dataset_chemin,name0, d(i).name) );
+
+                [x_tmp, fs] = audioread( sprintf('%s/%s/%s/%s', dataset_chemin,generated,name0, d(i).name) );
+                feats = F_audioQ_desc(x_tmp, fs);
         
-                % Calculer les features
-                feats = F_audioQ_desc(x, fs);
-        
-                % Ajouter dans la cellule
                 count = count + 1;
                 X_cell{count} = feats;
+                fname{k}{count} = d(i).name;
             end
         end
         
         fprintf(1, 'Done.\n')
-        % Convertir en matrice finale
-        X{i_ref} = cell2mat(X_cell');  % transpose si chaque 'feats' est un vecteur ligne
+
+        X{k} = cell2mat(X_cell');
     end
 end
 

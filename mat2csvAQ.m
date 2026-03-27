@@ -4,18 +4,23 @@ close all
 
 load("AQFeatures.mat");
 dataset_chemin = "../../dataset/";
+%dataset_chemin = "../";
 
+fullpath = false;
 
 csv_filename = "./generated.csv";
 
-%csv_fields = {"Filename" "plugindex" "plugname" "sourceindex" "sourcename" "paramindex" "amount" "peak_dB" "integrated_loudness" "integrated_loudness_range" "delta_loudness" "delta_loudness_range" "label"};
+%generated = "generated-raw";
 
 csv_fields = {'Filename' f_names{:}};
 
 fp = fopen(csv_filename, 'w+t');
 
 % write header
-fprintf(fp, '\"%s\" ', csv_fields{1:end});
+for i = 1:numel(csv_fields)
+  fprintf(fp, '%s ', strrep(csv_fields{i},' ', '-'));
+end
+
 fprintf(fp, '\n');
 
 d0 = dir(sprintf("%s/originals", dataset_chemin));
@@ -29,9 +34,16 @@ for j = 1:length(d0)
     if strcmpi(ext0,".aif") || strcmpi(ext0,".wav")
         k = k+1;
         fprintf(1, 'Processing %s ...\n', name0);
-
+        if fullpath
+            fprintf(fp, "./originals/%s ", d(i).name);
+        else
+            fprintf(fp, "%s ", d(i).name);
+        end
+        fprintf( fp, '%.10f ', feats_ref{k} );
+        fprintf(fp , '\n');
+        
         %% processing all the generated signals
-        d = dir(sprintf('%s/generated/%s', dataset_chemin, name0));
+        d = dir(sprintf('%s/%s/%s', dataset_chemin, generated, name0));
         
         count = 0;
         for i = 1:length(d)
@@ -48,7 +60,13 @@ for j = 1:length(d0)
                 end
                 % Lire le fichier audio
                 %[x, fs] = audioread( sprintf('%s/generated/%s/%s', dataset_chemin,name0, d(i).name) );
-                fprintf(fp, "generated/%s/%s ", name0, d(i).name);
+
+                if fullpath
+                    fprintf(fp, "./%s/%s/%s ", generated, name0, d(i).name);
+                else
+                    fprintf(fp, "%s ", d(i).name);
+                end
+
                 fprintf( fp, '%.10f ', X{k}(count,:) );
                 fprintf(fp , '\n');
             end
