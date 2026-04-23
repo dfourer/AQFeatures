@@ -18,6 +18,26 @@ Then, features are ranked according to their ability to discriminate between dif
 Finally, results can be visualized in a 3D feature space.
 
 ---
+## 📖 Citation
+
+If you use this repository, please cite:
+
+Fourer, D., & Peeters, G. (2017).
+*Objective characterization of audio signal quality: Application to music collection description.*
+Proceedings of ICASSP 2017, New Orleans, USA.
+
+### BibTeX
+
+```bibtex
+@inproceedings{fourer2017audio,
+  author = {Fourer, Dominique and Peeters, Geoffroy},
+  title = {Objective characterization of audio signal quality: Application to music collection description},
+  booktitle = {Proceedings of the IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)},
+  year = {2017},
+  address = {New Orleans, USA}
+}
+```
+---
 
 ## Project Structure
 
