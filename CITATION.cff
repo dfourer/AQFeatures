@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+title: "AQFeatures: Audio Quality Features Extraction"
+message: "If you use this software, please cite both the software and the related publication."
+authors:
+
+* family-names: "Fourer"
+  given-names: "Dominique"
+* family-names: "Peeters"
+  given-names: "Geoffroy"
+  date-released: 2017
+  url: "https://github.com/dfourer/AQFeatures"
+  preferred-citation:
+  type: paper-conference
+  authors:
+
+  * family-names: "Fourer"
+    given-names: "Dominique"
+  * family-names: "Peeters"
+    given-names: "Geoffroy"
+    title: "Objective characterization of audio signal quality: Application to music collection description"
+    collection-title: "Proceedings of the IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)"
+    year: 2017
+    conference:
+    name: "ICASSP 2017"
+    location: "New Orleans, USA"
